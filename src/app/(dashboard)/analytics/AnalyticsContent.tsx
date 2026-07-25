@@ -28,7 +28,6 @@ interface User {
   email: string;
   name: string | null;
   image: string | null;
-  role: string;
 }
 
 interface AnalyticsData {
@@ -238,7 +237,7 @@ export function AnalyticsContent({ user }: { user: User }) {
                           border: "1px solid hsl(var(--border))",
                           borderRadius: "8px",
                         }}
-                        formatter={(value: number) => [value.toLocaleString(), "Users"]}
+                        formatter={(value) => [(Number(value) || 0).toLocaleString(), "Users"]}
                       />
                       <Legend />
                       <Line
@@ -282,7 +281,7 @@ export function AnalyticsContent({ user }: { user: User }) {
                           border: "1px solid hsl(var(--border))",
                           borderRadius: "8px",
                         }}
-                        formatter={(value: number) => [value.toLocaleString(), "Count"]}
+                        formatter={(value) => [(Number(value) || 0).toLocaleString(), "Count"]}
                       />
                       <Legend />
                       <Line
@@ -328,10 +327,10 @@ export function AnalyticsContent({ user }: { user: User }) {
                           border: "1px solid hsl(var(--border))",
                           borderRadius: "8px",
                         }}
-                        formatter={(value: number, name: string) => [
-                          name === "avgDuration" ? formatDuration(value) : value.toFixed(1) + "%",
-                          name,
-                        ]}
+                        formatter={(value, name) => [
+                          name === "avgDuration" ? formatDuration(Number(value) || 0) : (Number(value) || 0).toFixed(1) + "%",
+                          name as string,
+                        ] as const}
                       />
                       <Legend />
                       <Line
@@ -377,7 +376,7 @@ export function AnalyticsContent({ user }: { user: User }) {
                           border: "1px solid hsl(var(--border))",
                           borderRadius: "8px",
                         }}
-                        formatter={(value: number) => [value.toLocaleString(), "Events"]}
+                        formatter={(value) => [((value as number) || 0).toLocaleString(), "Events"] as const}
                       />
                       <Legend />
                       <Bar dataKey="events" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
@@ -483,7 +482,7 @@ export function AnalyticsContent({ user }: { user: User }) {
                       fill="#8884d8"
                       dataKey="value"
                       nameKey="name"
-                      label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                      label={({ name, percent }) => `${name} ${((percent ?? 0) * 100).toFixed(0)}%`}
                     >
                       {data.topCountries.slice(0, 8).map((_, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -495,7 +494,7 @@ export function AnalyticsContent({ user }: { user: User }) {
                         border: "1px solid hsl(var(--border))",
                         borderRadius: "8px",
                       }}
-                      formatter={(value: number) => [value.toLocaleString(), "Sessions"]}
+                      formatter={(value) => [((value as number) || 0).toLocaleString(), "Sessions"] as const}
                     />
                   </PieChart>
                 </ResponsiveContainer>

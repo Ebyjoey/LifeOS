@@ -17,6 +17,7 @@ import {
   Monitor,
   Smartphone,
   Tablet,
+  Activity,
 } from "lucide-react";
 
 interface DashboardData {
@@ -98,7 +99,7 @@ export function DashboardContent({ user }: { user: { id: string; name: string | 
   };
 
   const getChangeType = (current: number, previous: number) => {
-    if (previous === 0) return current > 0 ? "increase" : "neutral" as const;
+    if (previous === 0) return current > 0 ? "increase" : undefined;
     return current >= previous ? "increase" : "decrease";
   };
 

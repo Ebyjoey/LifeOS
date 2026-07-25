@@ -32,7 +32,7 @@ export function MetricCard({ title, value, change, changeType, icon }: MetricCar
 }
 
 interface LineChartProps {
-  data: Array<{ date: string; value: number; [key: string]: any }>;
+  data: Array<{ date: string; [key: string]: any }>;
   xKey: string;
   yKey: string;
   label: string;
@@ -53,7 +53,7 @@ export function MetricLineChart({ data, xKey, yKey, label, color = "hsl(var(--pr
               <XAxis dataKey={xKey} tickFormatter={(value) => format(new Date(value), "MMM dd")} className="text-xs" />
               <YAxis className="text-xs" />
               <Tooltip
-                formatter={(value: number) => [value.toLocaleString(), label]}
+                formatter={(value) => [(Number(value) || 0).toLocaleString(), label as string]}
                 contentStyle={{ backgroundColor: "hsl(var(--background))", border: "1px solid hsl(var(--border))" }}
               />
               <Legend />
@@ -74,7 +74,7 @@ export function MetricLineChart({ data, xKey, yKey, label, color = "hsl(var(--pr
 }
 
 interface BarChartProps {
-  data: Array<{ name: string; value: number; [key: string]: any }>;
+  data: Array<{ [key: string]: any }>;
   xKey: string;
   yKey: string;
   label: string;
@@ -94,7 +94,7 @@ export function MetricBarChart({ data, xKey, yKey, label }: BarChartProps) {
               <XAxis dataKey={xKey} className="text-xs" />
               <YAxis className="text-xs" />
               <Tooltip
-                formatter={(value: number) => [value.toLocaleString(), label]}
+                formatter={(value) => [(Number(value) || 0).toLocaleString(), label as string]}
                 contentStyle={{ backgroundColor: "hsl(var(--background))", border: "1px solid hsl(var(--border))" }}
               />
               <Line
@@ -134,7 +134,7 @@ export function MetricPieChart({ data, label }: PieChartProps) {
                 <XAxis dataKey="name" className="text-xs" />
                 <YAxis className="text-xs" />
                 <Tooltip
-                  formatter={(value: number) => [value.toLocaleString(), label]}
+formatter={(value) => [(Number(value) || 0).toLocaleString(), label as string]}
                   contentStyle={{ backgroundColor: "hsl(var(--background))", border: "1px solid hsl(var(--border))" }}
                 />
                 <Line

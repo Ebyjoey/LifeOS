@@ -56,7 +56,7 @@ interface PageViewData {
   exitedAt?: string;
 }
 
-class ActivityTracker {
+export class ActivityTracker {
   private config: Required<TrackingConfig>;
   private activityQueue: ActivityData[] = [];
   private eventQueue: EventData[] = [];

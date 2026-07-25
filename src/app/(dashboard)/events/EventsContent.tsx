@@ -22,6 +22,7 @@ import {
   Maximize,
   Wifi,
   WifiOff,
+  X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ActivityType, EventCategory } from "@/generated/prisma/enums";
@@ -64,7 +65,6 @@ interface User {
   email: string;
   name: string | null;
   image: string | null;
-  role: string;
 }
 
 export function EventsContent({ user }: { user: User }) {

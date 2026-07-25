@@ -16,7 +16,6 @@ interface User {
   email: string;
   name: string | null;
   image: string | null;
-  role: string;
 }
 
 export function SettingsContent({ user }: { user: User }) {

@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
           where: { date: { gte: startDate, lte: endDate } },
           orderBy: { date: "asc" },
         });
-        timeSeriesData = hourly.map((h) => ({
+        timeSeriesData = hourly.map((h: typeof hourly[0]) => ({
           timestamp: h.date,
           activeUsers: h.activeUsers,
           sessions: h.totalSessions,
@@ -72,7 +72,7 @@ export async function GET(request: NextRequest) {
           where: { date: { gte: startDate, lte: endDate } },
           orderBy: { date: "asc" },
         });
-        timeSeriesData = daily.map((d) => ({
+        timeSeriesData = daily.map((d: typeof daily[0]) => ({
           timestamp: d.date,
           totalUsers: d.totalUsers,
           newUsers: d.newUsers,
@@ -130,11 +130,11 @@ export async function GET(request: NextRequest) {
         }),
       ]);
 
-      topPages = pages.map((p) => ({ page: p.page!, count: p._count.page }));
-      topEvents = events.map((e) => ({ event: e.name, count: e._count.name }));
-      topCountries = countries.map((c) => ({ country: c.country!, count: c._count.country }));
-      topBrowsers = browsers.map((b) => ({ browser: b.browser!, count: b._count.browser }));
-      topDevices = devices.map((d) => ({ device: d.device!, count: d._count.device }));
+      topPages = pages.map((p: typeof pages[0]) => ({ page: p.page!, count: p._count.page }));
+      topEvents = events.map((e: typeof events[0]) => ({ event: e.name, count: e._count.name }));
+      topCountries = countries.map((c: typeof countries[0]) => ({ country: c.country!, count: c._count.country }));
+      topBrowsers = browsers.map((b: typeof browsers[0]) => ({ browser: b.browser!, count: b._count.browser }));
+      topDevices = devices.map((d: typeof devices[0]) => ({ device: d.device!, count: d._count.device }));
     }
 
     return NextResponse.json({

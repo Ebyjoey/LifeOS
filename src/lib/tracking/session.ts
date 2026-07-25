@@ -6,6 +6,8 @@ export interface SessionInfo {
   id: string;
   sessionToken: string;
   userId?: string;
+  startedAt: Date;
+  isActive: boolean;
 }
 
 export function getSessionToken(request: Request): string | null {
@@ -89,6 +91,8 @@ export async function createSessionIfNeeded(
     id: session.id,
     sessionToken: session.sessionToken,
     userId: session.userId || undefined,
+    startedAt: session.startedAt,
+    isActive: session.isActive,
   };
 }
 
@@ -107,22 +111,24 @@ export async function associateUserWithSession(
   });
 }
 
-export async function endSession(sessionToken: string): Promise<void> {
+export async function endSession(sessionToken: string, userId?: string, endedAt?: Date): Promise<void> {
   const session = await prisma.sessionData.findUnique({
     where: { sessionToken },
   });
 
   if (session && session.isActive) {
+    const endTime = endedAt || new Date();
     const duration = Math.floor(
-      (Date.now() - session.startedAt.getTime()) / 1000
+      (endTime.getTime() - session.startedAt.getTime()) / 1000
     );
 
     await prisma.sessionData.update({
       where: { sessionToken },
       data: {
         isActive: false,
-        endedAt: new Date(),
+        endedAt: endTime,
         duration,
+        ...(userId ? { userId } : {}),
         updatedAt: new Date(),
       },
     });
